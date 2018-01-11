@@ -19,7 +19,7 @@ team repository. Conflicts in git can be resolved, but it's easier to just avoid
 The subfolders m1, m2, m3, and m4 that are within this `/sandbox` folder are all identical.
 - Team member #1 (Wesley Turner) will work all of the TODOs in the m1 folder
 - Team member #2 (Patrick Addis) will work all of the TODOs in the m2 folder
-- Team member #3 (Joseph Callahan) will work all of the TODOs in the m3 folder
+- Team member #3 (Joseph Callahan) will work all of the TODOs in the callahjb folder
 
 **DONE: 2.**
 Fill in your name above then do a VCS -> Commit.. -> Commit and Push.
