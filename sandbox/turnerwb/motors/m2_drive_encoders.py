@@ -53,9 +53,9 @@ def main():
     ev3.Sound.speak("Drive Using Encoders").wait()
 
     # Connect two large motors on output ports B and C
+
     left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
     right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
-
     # Check that the motors are actually connected
     assert left_motor.connected
     assert right_motor.connected
