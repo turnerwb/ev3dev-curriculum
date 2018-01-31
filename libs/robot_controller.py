@@ -49,5 +49,4 @@ class Snatch3r(object):
         self.left_motor.run_to_rel_pos(position_sp=right_degrees_to_turn, speed_sp=turn_speed_sp)
         self.right_motor.run_to_rel_pos(position_sp=left_degrees_to_turn, speed_sp=turn_speed_sp)
         self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
-    # TODO: Implement the Snatch3r class as needed when working the sandox exercises
-    # (and delete these comments)
+  
