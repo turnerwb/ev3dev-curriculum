@@ -8,7 +8,7 @@ the more complex callback approach that uses lamdba when data needs to be shared
 Since this module is all about the buttons the Sound code has just been provided as a finished
 example.  You will call different Sound functions using different buttons.
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.
+Authors: David Fisher and Patrick Addis.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import ev3dev.ev3 as ev3
@@ -50,11 +50,11 @@ def main():
     #   .on_left to call handle_left_button (that function does not exist yet, you will write it in todo4)
     #   .on_right to call handle_right_button (that function does not exist yet, you will write it in todo4)
     # Here is one for free...
-    #  btn.on_up = handle_up_button
+    btn.on_up = handle_up_button
 
     # TODO: 5. Note #4 is lower (this is TO DO #5 which you should do after #4).
     # Add a lambda callback for on_backspace.  The syntax of lambda is:
-    #   btn.on_backspace = lamdba predefined_inputs: function_name(parameters)
+    #   btn.on_backspace = lambda predefined_inputs: function_name(parameters)
     # You will need to change the predefined_inputs, function_name, and parameters from that syntax template.
     # Using lambda call the function handle_shutdown passing in the state and dc
     # Note: the function handle_shutdown does not exist yet, you will write it in todo6.
