@@ -22,6 +22,7 @@ class Snatch3r(object):
     def __init__(self):
         self.left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+        #TODO add arm_motor object
 
     def drive_inches(self, distance_in, motor_sp):
         """
@@ -49,3 +50,18 @@ class Snatch3r(object):
         self.left_motor.run_to_rel_pos(position_sp=right_degrees_to_turn, speed_sp=turn_speed_sp)
         self.right_motor.run_to_rel_pos(position_sp=left_degrees_to_turn, speed_sp=turn_speed_sp)
         self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
+
+    def arm_calibration(self):
+        # TODO copy arm calibration code from m4 & delete pass
+        # TODO Change references to arm_motor to self.arm_motor
+        pass
+
+    def arm_up(self):
+        # TODO copy arm up code from m4 & Delete pass
+        # TODO Change references to arm_motor to self.arm_motor
+        pass
+
+    def arm_down(self):
+        # TODO copy arm down code from m4 and delete pass
+        # TODO Change references to arm_motor to self.arm_motor
+        pass
