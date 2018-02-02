@@ -22,7 +22,7 @@ class Snatch3r(object):
     def __init__(self):
         self.left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
-        #TODO add arm_motor object
+        # TODO add arm_motor object
 
     def drive_inches(self, distance_in, motor_sp):
         """
@@ -64,4 +64,8 @@ class Snatch3r(object):
     def arm_down(self):
         # TODO copy arm down code from m4 and delete pass
         # TODO Change references to arm_motor to self.arm_motor
+        pass
+
+    def shutdown(self):
+        # TODO Write code to handle shutdown (Look at other methods?)
         pass
