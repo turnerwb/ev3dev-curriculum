@@ -25,7 +25,6 @@ class Snatch3r(object):
         self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
         self.touch_sensor = ev3.TouchSensor()
         assert self.touch_sensor
-        self.MAX_SPEED = 900
 
     def drive_inches(self, distance_in, motor_sp):
         """
@@ -55,27 +54,34 @@ class Snatch3r(object):
         self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
 
     def arm_calibration(self):
-        self.arm_motor.run_forever(speed_sp=900)
-        while not self.touch_sensor.is_pressed:
+        MAX_SPEED = 900
+        self.arm_motor.run_forever(speed_sp=MAX_SPEED)
+        while not self.touch_sensor:
             time.sleep(0.01)
-        self.arm_motor.stop(stop_action="brake")
+
+        self.arm_motor.stop(stop_action="coast")
 
         arm_revolutions_for_full_range = 14.2
-        self.arm_motor.run_to_rel_pos(position_sp=-arm_revolutions_for_full_range * 360)
-        self.arm_motor.wait_while(ev3.Motor.STATE_RUNNING)
+        self.arm_motor.run_to_rel_pos(position_sp=-arm_revolutions_for_full_range)
+        self.arm_motor.wait_while(ev3.Motor.STATE_STALLED)
 
-        self.arm_motor.position = 0
+        self.arm_motor.position = 0  # Calibrate the down position as 0 (this line is correct as is).
 
     def arm_up(self):
-        self.arm_motor.run_forever(speed_sp=self.MAX_SPEED)
-        while not self.touch_sensor.is_pressed:
+        MAX_SPEED = 900
+        self.arm_motor.run_to_rel_pos(position_sp=14.2, speed_sp=MAX_SPEED)
+        while self.touch_sensor.is_pressed:
             time.sleep(0.01)
-        self.arm_motor.stop(stop_action="brake")
+        self.arm_motor.stop()
 
     def arm_down(self):
-        self.arm_motor.run_to_abs_pos(position_sp=0, speed_sp=self.MAX_SPEED)
-        self.arm_motor.wait_while(ev3.Motor.STATE_RUNNING)
-        self.arm_motor.stop(stop_action="brake")
+        self.arm_motor.run_to_abs_pos()
+        self.arm_motor.wait_while(ev3.Motor.STATE_HOLDING)
 
     def shutdown(self):
         ev3.Sound.speak("Goodbye").wait()
+        print(" Goodbye")
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+        self.left_motor.stop()
+        self.right_motor.stop()
