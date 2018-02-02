@@ -81,6 +81,9 @@ def main():
         if button_state:
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
             left_motor.run_forever(speed_sp=600)
+        else:
+            left_motor.stop(stop_action = "break")
+            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
 
     def handle_red_down_1(button_state, dc):
         """
@@ -93,6 +96,9 @@ def main():
         if button_state:
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
             left_motor.run_forever(speed_sp=-600)
+        else:
+            left_motor.stop(stop_action = "break")
+            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
 
     def handle_blue_up_1(button_state, dc):
         """
@@ -105,6 +111,9 @@ def main():
         if button_state:
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
             right_motor.run_forever(speed_sp=600)
+        else:
+            right_motor.stop(stop_action = "break")
+            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
 
     def handle_blue_down_1(button_state, dc):
         """
@@ -117,6 +126,9 @@ def main():
         if button_state:
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
             left_motor.run_forever(speed_sp=-600)
+        else:
+            left_motor.stop(stop_action = "break")
+            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
 
     def handle_red_up_2(button_state, dc):
         """
@@ -129,6 +141,11 @@ def main():
         if button_state:
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
             left_motor.run_forever(speed_sp=-600)
+        else:
+            left_motor.stop(stop_action = "break")
+            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
+
+
 
     rc2 = ev3.RemoteControl(channel=2)
     rc2.on_red_up = lambda button_state: handle_red_up_2(button_state, dc)
