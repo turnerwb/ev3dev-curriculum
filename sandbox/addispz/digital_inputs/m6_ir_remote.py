@@ -70,6 +70,24 @@ def main():
     rc1.on_blue_up = lambda button_state: handle_blue_up_1(button_state, dc)
     rc1.on_blue_down = lambda button_state: handle_blue_down_1(button_state, dc)
 
+    rc2 = ev3.RemoteControl(channel=2)
+    rc2.on_red_up2 = lambda button_state: handle_red_up_2(button_state, dc)
+    rc2.on_red_down2 = lambda button_state: handle_red_down_2(button_state, dc)
+    rc2.on_blue_up2 = lambda button_state: handle_blue_up_2(button_state, dc)
+
+    # For our standard shutdown button.
+    btn = ev3.Button()
+    btn.on_backspace = lambda state: handle_shutdown(state, dc)
+
+    robot.arm_calibration()  # Start with an arm calibration in this program.
+
+    while dc.running:
+        # DONE: 5. Process the RemoteControl objects.
+        rc1.process()
+        rc2.process()
+        btn.process()
+        time.sleep(0.01)
+
 
     def handle_red_up_1(button_state, dc):
         """
@@ -138,30 +156,34 @@ def main():
         Type hints:
           :type button_state: bool
           :type dc: DataContainer
+          :type arm_motor: ev3.MediumMotor
+          :type touch_sensor: ev3.TouchSensor
+
         """
         if button_state:
-            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
-            left_motor.run_forever(speed_sp=-600)
-        else:
-            left_motor.stop()
-            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
+            robot.arm_calibration()
 
-    rc2 = ev3.RemoteControl(channel=2)
-    rc2.on_red_up = lambda button_state: handle_red_up_2(button_state, dc)
+    def handle_red_down_2(button_state, dc):
+        """
+        Handle IR event.
 
-    # For our standard shutdown button.
-    btn = ev3.Button()
-    btn.on_backspace = lambda state: handle_shutdown(state, dc)
+        Type hints:
+          :type button_state: bool
+          :type dc: DataContainer
+        """
+        if button_state:
+            robot.arm_up()
 
-    robot.arm_calibration()  # Start with an arm calibration in this program.
+    def handle_blue_up_2(button_state, dc):
+        """
+        Handle IR event.
 
-    while dc.running:
-        # DONE: 5. Process the RemoteControl objects.
-        rc1.process()
-        rc2.process()
-        btn.process()
-        time.sleep(0.01)
-        
+        Type hints:
+          :type button_state: bool
+          :type dc: DataContainer
+        """
+        if button_state:
+            robot.arm_down()
 
     # DONE: 2. Have everyone talk about this problem together then pick one  member to modify libs/robot_controller.py
     # as necessary to implement the method below as per the instructions in the opening doc string. Once the code has
