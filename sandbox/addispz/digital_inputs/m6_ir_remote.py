@@ -126,7 +126,7 @@ def main():
         """
         if button_state:
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
-            left_motor.run_forever(speed_sp=-600)
+            right_motor.run_forever(speed_sp=-600)
         else:
             left_motor.stop()
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
