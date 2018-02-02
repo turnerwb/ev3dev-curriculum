@@ -25,8 +25,8 @@
     -- Pressing the Back button will allow your program to end.  It should stop motors, turn on both green LEDs, and
        then print and say Goodbye.  You will need to implement a new robot method called shutdown to handle this task.
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+Authors: David Fisher and Patrick Addis.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import ev3dev.ev3 as ev3
 import time
@@ -70,65 +70,65 @@ def main():
     rc1.on_blue_up = lambda button_state: handle_blue_up_1(button_state, dc)
     rc1.on_blue_down = lambda button_state: handle_blue_down_1(button_state, dc)
 
-    def handle_red_up_1(button_state, dc):
-        """
-        Handle IR event.
+def handle_red_up_1(button_state, dc):
+    """
+    Handle IR event.
 
-        Type hints:
-          :type button_state: bool
-          :type dc: DataContainer
-        """
-        if button_state:
-            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
-            left_motor.run_forever(speed_sp=600)
+    Type hints:
+      :type button_state: bool
+      :type dc: DataContainer
+    """
+    if button_state:
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+        left_motor.run_forever(speed_sp=600)
 
-    def handle_red_down_1(button_state, dc):
-        """
-        Handle IR event.
+def handle_red_down_1(button_state, dc):
+    """
+    Handle IR event.
 
-        Type hints:
-          :type button_state: bool
-          :type dc: DataContainer
-        """
-        if button_state:
-            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
-            left_motor.run_forever(speed_sp=-600)
+    Type hints:
+      :type button_state: bool
+      :type dc: DataContainer
+    """
+    if button_state:
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
+        left_motor.run_forever(speed_sp=-600)
 
-    def handle_blue_up_1(button_state, dc):
-        """
-        Handle IR event.
+def handle_blue_up_1(button_state, dc):
+    """
+    Handle IR event.
 
-        Type hints:
-          :type button_state: bool
-          :type dc: DataContainer
-        """
-        if button_state:
-            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
-            right_motor.run_forever(speed_sp=600)
+    Type hints:
+      :type button_state: bool
+      :type dc: DataContainer
+    """
+    if button_state:
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+        right_motor.run_forever(speed_sp=600)
 
-    def handle_blue_down_1(button_state, dc):
-        """
-        Handle IR event.
+def handle_blue_down_1(button_state, dc):
+    """
+    Handle IR event.
 
-        Type hints:
-          :type button_state: bool
-          :type dc: DataContainer
-        """
-        if button_state:
-            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
-            left_motor.run_forever(speed_sp=-600)
+    Type hints:
+      :type button_state: bool
+      :type dc: DataContainer
+    """
+    if button_state:
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
+        left_motor.run_forever(speed_sp=-600)
 
-    def handle_red_up_2(button_state, dc):
-        """
-        Handle IR event.
+def handle_red_up_2(button_state, dc):
+    """
+    Handle IR event.
 
-        Type hints:
-          :type button_state: bool
-          :type dc: DataContainer
-        """
-        if button_state:
-            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
-            left_motor.run_forever(speed_sp=-600)
+    Type hints:
+      :type button_state: bool
+      :type dc: DataContainer
+    """
+    if button_state:
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
+        left_motor.run_forever(speed_sp=-600)
 
     rc2 = ev3.RemoteControl(channel=2)
     rc2.on_red_up = lambda button_state: handle_red_up_2(button_state, dc)
