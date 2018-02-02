@@ -24,6 +24,7 @@ class Snatch3r(object):
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
         self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
         self.touch_sensor = ev3.TouchSensor()
+
         assert self.touch_sensor
 
     def drive_inches(self, distance_in, motor_sp):
@@ -80,3 +81,7 @@ class Snatch3r(object):
 
     def shutdown(self):
         ev3.Sound.speak("Goodbye").wait()
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+        self.left_motor.stop()
+        self.right_motor.stop()
