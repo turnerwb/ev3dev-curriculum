@@ -81,6 +81,7 @@ class Snatch3r(object):
 
     def shutdown(self):
         ev3.Sound.speak("Goodbye").wait()
+        print(" Goodbye")
         ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
         ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
         self.left_motor.stop()
