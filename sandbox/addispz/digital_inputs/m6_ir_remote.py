@@ -83,7 +83,7 @@ def main():
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
             left_motor.run_forever(speed_sp=600)
         else:
-            left_motor.stop(stop_action = "break")
+            left_motor.stop()
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
 
     def handle_red_down_1(button_state, dc):
@@ -98,7 +98,7 @@ def main():
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
             left_motor.run_forever(speed_sp=-600)
         else:
-            left_motor.stop(stop_action = "break")
+            left_motor.stop()
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
 
     def handle_blue_up_1(button_state, dc):
@@ -113,7 +113,7 @@ def main():
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
             right_motor.run_forever(speed_sp=600)
         else:
-            right_motor.stop(stop_action = "break")
+            right_motor.stop()
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
 
     def handle_blue_down_1(button_state, dc):
@@ -128,7 +128,7 @@ def main():
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
             left_motor.run_forever(speed_sp=-600)
         else:
-            left_motor.stop(stop_action = "break")
+            left_motor.stop()
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
 
     def handle_red_up_2(button_state, dc):
@@ -143,7 +143,7 @@ def main():
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
             left_motor.run_forever(speed_sp=-600)
         else:
-            left_motor.stop(stop_action = "break")
+            left_motor.stop()
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
 
     rc2 = ev3.RemoteControl(channel=2)
@@ -161,6 +161,7 @@ def main():
         rc2.process()
         btn.process()
         time.sleep(0.01)
+        
 
     # DONE: 2. Have everyone talk about this problem together then pick one  member to modify libs/robot_controller.py
     # as necessary to implement the method below as per the instructions in the opening doc string. Once the code has
