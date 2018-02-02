@@ -22,7 +22,9 @@ class Snatch3r(object):
     def __init__(self):
         self.left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
-        # TODO add arm_motor object
+        self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
+        self.touch_sensor = ev3.TouchSensor()
+        assert self.touch_sensor
 
     def drive_inches(self, distance_in, motor_sp):
         """
@@ -52,20 +54,29 @@ class Snatch3r(object):
         self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
 
     def arm_calibration(self):
-        # TODO copy arm calibration code from m4 & delete pass
-        # TODO Change references to arm_motor to self.arm_motor
-        pass
+        MAX_SPEED = 900
+        self.arm_motor.run_forever(speed_sp=MAX_SPEED)
+        while not self.touch_sensor:
+            time.sleep(0.01)
+
+        self.arm_motor.stop(stop_action="coast")
+
+        arm_revolutions_for_full_range = 14.2
+        self.arm_motor.run_to_rel_pos(position_sp=-arm_revolutions_for_full_range)
+        self.arm_motor.wait_while(ev3.Motor.STATE_STALLED)
+
+        self.arm_motor.position = 0  # Calibrate the down position as 0 (this line is correct as is).
 
     def arm_up(self):
-        # TODO copy arm up code from m4 & Delete pass
-        # TODO Change references to arm_motor to self.arm_motor
-        pass
+        MAX_SPEED = 900
+        self.arm_motor.run_to_rel_pos(position_sp=14.2, speed_sp=MAX_SPEED)
+        while self.touch_sensor.is_pressed:
+            time.sleep(0.01)
+        self.arm_motor.stop()
 
     def arm_down(self):
-        # TODO copy arm down code from m4 and delete pass
-        # TODO Change references to arm_motor to self.arm_motor
-        pass
+        self.arm_motor.run_to_abs_pos()
+        self.arm_motor.wait_while(ev3.Motor.STATE_HOLDING)
 
     def shutdown(self):
-        # TODO Write code to handle shutdown (Look at other methods?)
-        pass
+        ev3.Sound.speak("Goodbye").wait()
