@@ -32,6 +32,8 @@ import ev3dev.ev3 as ev3
 import time
 
 import robot_controller as robo
+left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
 
 # Note that todo2 is farther down in the code.  That method needs to be written before you do todo3.
 # TODO: 3. Have someone on your team run this program on the EV3 and make sure everyone understands the code.
@@ -61,6 +63,75 @@ def main():
     # TODO: 4. Add the necessary IR handler callbacks as per the instructions above.
     # Remote control channel 1 is for driving the crawler tracks around (none of these functions exist yet below).
     # Remote control channel 2 is for moving the arm up and down (all of these functions already exist below).
+
+    rc1 = ev3.RemoteControl(channel=1)
+    rc1.on_red_up = lambda button_state: handle_red_up_1(button_state, dc)
+    rc1.on_red_down = lambda button_state: handle_red_down_1(button_state, dc)
+    rc1.on_blue_up = lambda button_state: handle_blue_up_1(button_state, dc)
+    rc1.on_blue_down = lambda button_state: handle_blue_down_1(button_state, dc)
+
+    def handle_red_up_1(button_state, dc):
+        """
+        Handle IR event.
+
+        Type hints:
+          :type button_state: bool
+          :type dc: DataContainer
+        """
+        if button_state:
+            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+            left_motor.run_forever(speed_sp=600)
+
+    def handle_red_down_1(button_state, dc):
+        """
+        Handle IR event.
+
+        Type hints:
+          :type button_state: bool
+          :type dc: DataContainer
+        """
+        if button_state:
+            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
+            left_motor.run_forever(speed_sp=-600)
+
+    def handle_blue_up_1(button_state, dc):
+        """
+        Handle IR event.
+
+        Type hints:
+          :type button_state: bool
+          :type dc: DataContainer
+        """
+        if button_state:
+            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+            right_motor.run_forever(speed_sp=600)
+
+    def handle_blue_down_1(button_state, dc):
+        """
+        Handle IR event.
+
+        Type hints:
+          :type button_state: bool
+          :type dc: DataContainer
+        """
+        if button_state:
+            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
+            left_motor.run_forever(speed_sp=-600)
+
+    def handle_red_up_2(button_state, dc):
+        """
+        Handle IR event.
+
+        Type hints:
+          :type button_state: bool
+          :type dc: DataContainer
+        """
+        if button_state:
+            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
+            left_motor.run_forever(speed_sp=-600)
+
+    rc2 = ev3.RemoteControl(channel=2)
+    rc2.on_red_up = lambda button_state: handle_red_up_2(button_state, dc)
 
     # For our standard shutdown button.
     btn = ev3.Button()
