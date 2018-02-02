@@ -121,7 +121,7 @@ def arm_down(arm_motor):
 
     # Code that attempts to do this task but has bugs.  Fix them.
     arm_motor.run_to_abs_pos(position_sp=0, speed_sp=MAX_SPEED)
-    arm_motor.wait_while(ev3.Motor.STATE_RUNNING)  # Blocks until the motor finishes running
+    arm_motor.wait_while(ev3.Motor.STATE_RUNNING)
     arm_motor.stop(stop_action="brake")
     # DONE: 6. After you fix the bugs in the three arm movement commands demo your code to a TA or instructor.
     #
