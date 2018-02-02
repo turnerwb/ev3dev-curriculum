@@ -70,6 +70,7 @@ def main():
     rc1.on_blue_up = lambda button_state: handle_blue_up_1(button_state, dc)
     rc1.on_blue_down = lambda button_state: handle_blue_down_1(button_state, dc)
 
+
     def handle_red_up_1(button_state, dc):
         """
         Handle IR event.
@@ -144,11 +145,6 @@ def main():
         else:
             left_motor.stop(stop_action = "break")
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
-
-    while dc.running:
-        rc1.process()
-
-
 
     rc2 = ev3.RemoteControl(channel=2)
     rc2.on_red_up = lambda button_state: handle_red_up_2(button_state, dc)
