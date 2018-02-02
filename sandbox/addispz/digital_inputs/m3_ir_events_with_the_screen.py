@@ -103,7 +103,7 @@ def main():
         rc2.process()
         rc3.process()
         rc4.process()
-        # DONE: 7. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.
+        # : 7. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.
         #
         # Observations you should make, IR buttons work exactly like buttons on the EV3.
         #   The screen is a bit annoying to work with due to the Brickman OS interference.
