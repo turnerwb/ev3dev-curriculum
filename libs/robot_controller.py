@@ -12,7 +12,7 @@
 """
 
 import ev3dev.ev3 as ev3
-import math
+# import math
 import time
 
 
@@ -26,6 +26,7 @@ class Snatch3r(object):
         self.touch_sensor = ev3.TouchSensor()
         assert self.touch_sensor
         self.MAX_SPEED = 900
+        self.running = True
 
     def drive_inches(self, distance_in, motor_sp):
         """
@@ -84,3 +85,9 @@ class Snatch3r(object):
         ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
         self.left_motor.stop()
         self.right_motor.stop()
+        self.running = False
+
+    def loop_forever(self):
+        self.running = True
+        while self.running:
+            time.sleep(0.1)  
