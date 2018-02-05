@@ -78,6 +78,14 @@ class Snatch3r(object):
         self.arm_motor.wait_while(ev3.Motor.STATE_RUNNING)
         self.arm_motor.stop(stop_action="brake")
 
+    def drive(self, left_sp, right_sp):
+        self.right_motor.run_forever(right_sp)
+        self.left_motor.run_forever(left_sp)
+
+    def stop(self):
+        self.right_motor.stop(stop_action="brake")
+        self.left_motor.stop(stop_action="brake")
+
     def shutdown(self):
         ev3.Sound.speak("Goodbye").wait()
         print(" Goodbye")
@@ -90,4 +98,4 @@ class Snatch3r(object):
     def loop_forever(self):
         self.running = True
         while self.running:
-            time.sleep(0.1)  
+            time.sleep(0.1)
