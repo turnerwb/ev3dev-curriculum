@@ -59,27 +59,25 @@ def main():
     ev3.Leds.all_off()  # Turn the leds off
     robot = robo.Snatch3r()
     dc = DataContainer()
-
+    robot.arm_calibration()# Start with an arm calibration in this program.
     # TODO: 4. Add the necessary IR handler callbacks as per the instructions above.
     # Remote control channel 1 is for driving the crawler tracks around (none of these functions exist yet below).
     # Remote control channel 2 is for moving the arm up and down (all of these functions already exist below).
 
     rc1 = ev3.RemoteControl(channel=1)
-    rc1.on_red_up = lambda button_state: handle_red_up_1(button_state, dc)
-    rc1.on_red_down = lambda button_state: handle_red_down_1(button_state, dc)
-    rc1.on_blue_up = lambda button_state: handle_blue_up_1(button_state, dc)
-    rc1.on_blue_down = lambda button_state: handle_blue_down_1(button_state, dc)
+    rc1.on_red_up = lambda button_state: handle_red_up_1(button_state)
+    rc1.on_red_down = lambda button_state: handle_red_down_1(button_state)
+    rc1.on_blue_up = lambda button_state: handle_blue_up_1(button_state)
+    rc1.on_blue_down = lambda button_state: handle_blue_down_1(button_state)
 
     rc2 = ev3.RemoteControl(channel=2)
-    rc2.on_red_up2 = lambda button_state: handle_red_up_2(button_state, dc)
-    rc2.on_red_down2 = lambda button_state: handle_red_down_2(button_state, dc)
-    rc2.on_blue_up2 = lambda button_state: handle_blue_up_2(button_state, dc)
+    rc2.on_red_up = lambda button_state: handle_arm_up_button(button_state, robot)
+    rc2.on_red_down = lambda button_state: handle_arm_down_button(button_state, robot)
+    rc2.on_blue_up = lambda button_state: handle_calibrate_button(button_state, robot)
 
     # For our standard shutdown button.
     btn = ev3.Button()
     btn.on_backspace = lambda state: handle_shutdown(state, dc)
-
-    robot.arm_calibration()  # Start with an arm calibration in this program.
 
     while dc.running:
         # DONE: 5. Process the RemoteControl objects.
@@ -87,103 +85,6 @@ def main():
         rc2.process()
         btn.process()
         time.sleep(0.01)
-
-
-    def handle_red_up_1(button_state, dc):
-        """
-        Handle IR event.
-
-        Type hints:
-          :type button_state: bool
-          :type dc: DataContainer
-        """
-        if button_state:
-            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
-            left_motor.run_forever(speed_sp=600)
-        else:
-            left_motor.stop()
-            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
-
-    def handle_red_down_1(button_state, dc):
-        """
-        Handle IR event.
-
-        Type hints:
-          :type button_state: bool
-          :type dc: DataContainer
-        """
-        if button_state:
-            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
-            left_motor.run_forever(speed_sp=-600)
-        else:
-            left_motor.stop()
-            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
-
-    def handle_blue_up_1(button_state, dc):
-        """
-        Handle IR event.
-
-        Type hints:
-          :type button_state: bool
-          :type dc: DataContainer
-        """
-        if button_state:
-            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
-            right_motor.run_forever(speed_sp=600)
-        else:
-            right_motor.stop()
-            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
-
-    def handle_blue_down_1(button_state, dc):
-        """
-        Handle IR event.
-
-        Type hints:
-          :type button_state: bool
-          :type dc: DataContainer
-        """
-        if button_state:
-            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
-            right_motor.run_forever(speed_sp=-600)
-        else:
-            right_motor.stop()
-            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
-
-    def handle_red_up_2(button_state, dc):
-        """
-        Handle IR event.
-
-        Type hints:
-          :type button_state: bool
-          :type dc: DataContainer
-          :type arm_motor: ev3.MediumMotor
-          :type touch_sensor: ev3.TouchSensor
-
-        """
-        if button_state:
-            robot.arm_calibration()
-
-    def handle_red_down_2(button_state, dc):
-        """
-        Handle IR event.
-
-        Type hints:
-          :type button_state: bool
-          :type dc: DataContainer
-        """
-        if button_state:
-            robot.arm_up()
-
-    def handle_blue_up_2(button_state, dc):
-        """
-        Handle IR event.
-
-        Type hints:
-          :type button_state: bool
-          :type dc: DataContainer
-        """
-        if button_state:
-            robot.arm_down()
 
     # DONE: 2. Have everyone talk about this problem together then pick one  member to modify libs/robot_controller.py
     # as necessary to implement the method below as per the instructions in the opening doc string. Once the code has
@@ -204,6 +105,70 @@ def main():
 # Observations you should make, IR buttons are a fun way to control the robot.
 
 
+def handle_red_up_1(button_state):
+    """
+    Handle IR event.
+
+    Type hints:
+      :type button_state: bool
+      :type dc: DataContainer
+    """
+    if button_state:
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+        left_motor.run_forever(speed_sp=600)
+    else:
+        left_motor.stop()
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
+
+
+def handle_red_down_1(button_state):
+    """
+    Handle IR event.
+
+    Type hints:
+      :type button_state: bool
+      :type dc: DataContainer
+    """
+    if button_state:
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
+        left_motor.run_forever(speed_sp=-600)
+    else:
+        left_motor.stop()
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
+
+
+def handle_blue_up_1(button_state):
+    """
+    Handle IR event.
+
+    Type hints:
+      :type button_state: bool
+      :type dc: DataContainer
+    """
+    if button_state:
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+        right_motor.run_forever(speed_sp=600)
+    else:
+        right_motor.stop()
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
+
+
+def handle_blue_down_1(button_state):
+    """
+    Handle IR event.
+
+    Type hints:
+      :type button_state: bool
+      :type dc: DataContainer
+    """
+    if button_state:
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
+        right_motor.run_forever(speed_sp=-600)
+    else:
+        right_motor.stop()
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
+
+
 def handle_arm_up_button(button_state, robot):
     """
     Moves the arm up when the button is pressed.
@@ -212,6 +177,7 @@ def handle_arm_up_button(button_state, robot):
       :type button_state: bool
       :type robot: robo.Snatch3r
     """
+    print("ARM UP")
     if button_state:
         robot.arm_up()
 
@@ -224,6 +190,7 @@ def handle_arm_down_button(button_state, robot):
       :type button_state: bool
       :type robot: robo.Snatch3r
     """
+    print("ARM DOWN")
     if button_state:
         robot.arm_down()
 
@@ -236,6 +203,7 @@ def handle_calibrate_button(button_state, robot):
       :type button_state: bool
       :type robot: robo.Snatch3r
     """
+    print("CALIBRATE")
     if button_state:
         robot.arm_calibration()
 
