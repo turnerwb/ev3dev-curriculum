@@ -15,7 +15,7 @@ You will need to have the following features:
     -- If set differently to say 600 left, 300 right the robot will drive and arc, for example forward goes 600 300
   -- In addition to the drive features there needs to be a clickable button for Arm Up and Arm Down
     -- There also need to be keyboard shortcut for Arm Up (u) and Arm Down (j).  Arm calibration is not required.
-
+ 
   -- Finally you need 2 buttons for ending your program:
     -- Quit, which stops only this program and allows the EV3 program to keep running
     -- Exit, which sends a shutdown message to the EV3, then ends it's own program as well.
@@ -116,25 +116,25 @@ def main():
 # ----------------------------------------------------------------------
 # Tkinter callbacks
 # ----------------------------------------------------------------------
-# TODO: 4. Implement the functions for the drive button callbacks.
+# DONE: 4. Implement the functions for the drive button callbacks.
 def handle_forward(mqtt_client, left_speed_entry, right_speed_entry):
-    pass
+    mqtt_client.send_message("drive", [int(left_speed_entry.get()), int(right_speed_entry.get())])
 
 
 def handle_left(mqtt_client, left_speed_entry, right_speed_entry):
-    pass
+    mqtt_client.send_message("drive", [-int(left_speed_entry.get()), int(right_speed_entry.get())])
 
 
 def handle_stop(mqtt_client):
-    pass
+    mqtt_client.send_message("stop")
 
 
 def handle_right(mqtt_client, left_speed_entry, right_speed_entry):
-    pass
+    mqtt_client.send_message("drive", [int(left_speed_entry.get()), -int(right_speed_entry.get())])
 
 
 def handle_backward(mqtt_client, left_speed_entry, right_speed_entry):
-    pass
+    mqtt_client.send_message("drive", [-int(left_speed_entry.get()), -int(right_speed_entry.get())])
 
 
 # TODO: 5. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.  This is the final one!
