@@ -96,6 +96,7 @@ def drive_to_color(button_state, robot, color_to_seek):
         while True:
             if color_to_seek != robot.color_sensor:
                 robot.drive(500, 500)
+                
                 break
 
 
