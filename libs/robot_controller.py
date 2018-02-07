@@ -24,7 +24,6 @@ class Snatch3r(object):
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
         self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
         self.touch_sensor = ev3.TouchSensor()
-        assert self.touch_sensor
         self.MAX_SPEED = 900
         self.running = True
 
@@ -32,9 +31,13 @@ class Snatch3r(object):
         self.color_sensor = ev3.ColorSensor()
         self.ir_sensor = ev3.InfraredSensor
 
-        assert self.pxy
+        assert self.pixy
         assert self.color_sensor
         assert self.ir_sensor
+        assert self.touch_sensor
+        assert self.left_motor
+        assert self.right_motor
+        assert self.arm_motor
 
     def drive_inches(self, distance_in, motor_sp):
         """
@@ -64,6 +67,10 @@ class Snatch3r(object):
         self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
 
     def arm_calibration(self):
+        """
+        Runs calibration procedures on the arm
+        :return:
+        """
         self.arm_motor.run_forever(speed_sp=self.MAX_SPEED)
         while not self.touch_sensor.is_pressed:
             time.sleep(0.01)
@@ -76,25 +83,47 @@ class Snatch3r(object):
         self.arm_motor.position = 0
 
     def arm_up(self):
+        """
+        Causes the arm to go up until it presses the touch sensor
+        :return:
+        """
         self.arm_motor.run_forever(speed_sp=self.MAX_SPEED)
         while not self.touch_sensor.is_pressed:
             time.sleep(0.01)
         self.arm_motor.stop(stop_action="brake")
 
     def arm_down(self):
+        """
+        Causes the arm to return to the down position
+        :return:
+        """
         self.arm_motor.run_to_abs_pos(position_sp=0, speed_sp=self.MAX_SPEED)
         self.arm_motor.wait_while(ev3.Motor.STATE_RUNNING)
         self.arm_motor.stop(stop_action="brake")
 
     def drive(self, left_sp, right_sp):
-        self.right_motor.run_forever(right_sp)
-        self.left_motor.run_forever(left_sp)
+        """
+        Makes both motors spin at provides speed until stopped
+        :param left_sp:
+        :param right_sp:
+        :return:
+        """
+        self.right_motor.run_forever(speed_sp=right_sp)
+        self.left_motor.run_forever(speed_sp=left_sp)
 
     def stop(self):
+        """
+        breaks both motors
+        :return:
+        """
         self.right_motor.stop(stop_action="brake")
         self.left_motor.stop(stop_action="brake")
 
     def shutdown(self):
+        """
+        Says goodbye, turns LEDs back to green, and stops both motors
+        :return:
+        """
         ev3.Sound.speak("Goodbye").wait()
         print(" Goodbye")
         ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
@@ -104,6 +133,10 @@ class Snatch3r(object):
         self.running = False
 
     def loop_forever(self):
+        """
+        Not recommended to be used, causes the robot to loop forever while waiting for input
+        :return:
+        """
         self.running = True
         while self.running:
             time.sleep(0.1)
