@@ -28,6 +28,14 @@ class Snatch3r(object):
         self.MAX_SPEED = 900
         self.running = True
 
+        self.pixy = ev3.Sensor(driver_name="pixy-lego")
+        self.color_sensor = ev3.ColorSensor()
+        self.ir_sensor = ev3.InfraredSensor
+
+        assert self.pxy
+        assert self.color_sensor
+        assert self.ir_sensor
+
     def drive_inches(self, distance_in, motor_sp):
         """
         Drives robot forward a given distance at a given speed
