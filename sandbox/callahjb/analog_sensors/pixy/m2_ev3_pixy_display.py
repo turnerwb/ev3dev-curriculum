@@ -15,7 +15,7 @@ import mqtt_remote_method_calls as com
 
 def main():
     print("--------------------------------------------")
-    print(" Pixy display")
+    print(" Pixy display 2")
     print(" Press the touch sensor to exit")
     print("--------------------------------------------")
     ev3.Sound.speak("Pixy display").wait()
@@ -41,12 +41,7 @@ def main():
         # If you open m2_pc_pixy_display you can see the parameters for that method [x, y, width, height]
 
         mqtt_client.send_message("on_rectangle_update", [robot.pixy.value(1), robot.pixy.value(2), robot.pixy.value(3),
-                                                          robot.pixy.value(4)])
-
-
-
-
-
+                                                         robot.pixy.value(4)])
         time.sleep(0.25)
 
     print("Goodbye!")

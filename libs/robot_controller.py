@@ -26,7 +26,7 @@ class Snatch3r(object):
         self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
         # Sensors
         self.touch_sensor = ev3.TouchSensor()
-        self.beacon_seeker = ev3.BeaconSeeker(channel=1)
+        self.beacon_seeker = ev3.BeaconSeeker(channel=4)
         self.pixy = ev3.Sensor(driver_name="pixy-lego")
         self.color_sensor = ev3.ColorSensor()
         self.ir_sensor = ev3.InfraredSensor()
@@ -164,7 +164,7 @@ class Snatch3r(object):
                     if current_distance > 3:
                         self.drive(forward_speed, forward_speed)
                     else:
-                        time.sleep(1.1)
+                        time.sleep(1.2)
                         self.stop()
                         return True
                 else:
