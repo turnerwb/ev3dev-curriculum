@@ -7,4 +7,11 @@
 # TODO 8: MQTT Computer to Robot: Testing if the robot cheated
 # (I'm thinking something like the Gamemaster from "Petals on a Rose")
 # TODO 9: MQTT Robot to Computer: Testing how far the robot went (Decide on a victory condition)
+import Tkinter_Window as GUI
 
+
+def main():
+    window = GUI.Window()
+    window.root.mainloop()
+
+main()
