@@ -1,25 +1,10 @@
-import pyfirmata
+# TODO 1: Verify that PIXY will work with LED, Note changes to camera needed to make it work
+# TODO 2: Tkinter GUI, Red Light/Green Light Buttons, Call out button, Difficulty buttons?
+# TODO 3: Random number generator to cause robot to 'Cheat.' Perhaps vary distance
+# TODO 4: Robot/Light system
+# TODO 5: Tkinter/Arduino System
+# TODO 6: Test lag between Light change and robot stop. Is it slow enough that the user can see a delay if no cheat?
+# TODO 8: MQTT Computer to Robot: Testing if the robot cheated
+# (I'm thinking something like the Gamemaster from "Petals on a Rose")
+# TODO 9: MQTT Robot to Computer: Testing how far the robot went (Decide on a victory condition)
 
-
-REDPIN = 12 # Pin 12 is used
-GREENPIN = 13
-DELAY = 2 # A 2 seconds delay
-
-# Adjust that the port match your system, see samples below:
-# On Linux: /dev/tty.usbserial-A6008rIF, /dev/ttyACM0,
-# On Windows: \\.\COM1, \\.\COM2
-PORT = '\\.\COM2'
-
-# Creates a new board
-board = pyfirmata.Arduino(PORT)
-
-# Loop for blinking the led
-while True:
-    board.digital[REDPIN].write(1) # Set the LED pin to 1 (HIGH)
-    board.pass_time(DELAY)
-    board.digital[REDPIN].write(0) # Set the LED pin to 0 (LOW)
-    board.pass_time(DELAY)
-    board.digital[GREENPIN].write(1)
-    board.pass_time(DELAY)
-    board.digital[GREENPIN].write(0)
-    board.pass_time(DELAY)
