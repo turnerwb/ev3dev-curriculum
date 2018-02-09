@@ -146,8 +146,7 @@ class Snatch3r(object):
 
     def seek_beacon(self):
         """
-        Seeks and drives to a beacon on channel 1
-        NOTE: !!UNTESTED CODE!! BE PREPARED TO REVERT
+        Seeks and drives to a beacon on channel set in beacon_seeker object
         :return:
         """
         forward_speed = 300
@@ -179,9 +178,3 @@ class Snatch3r(object):
         print("Abandon ship!")
         self.stop()
         return False
-                # else:
-                #     print("Heading Extremely Far Off!!", current_heading)
-                #     if current_heading > 0:
-                #         self.drive(turn_speed, -turn_speed)
-                #     else:
-                #         self.drive(-turn_speed, turn_speed)
