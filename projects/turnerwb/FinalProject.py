@@ -14,7 +14,21 @@ import time
 
 
 def main():
-    startup_protocol()
+    end = startup_protocol()
+    if not end:
+        play_game()
+
+
+def startup_protocol():
+    arduino.reset()
+    newgame = GUI.NewGameWindow()
+    newgame.quit['command'] = lambda: shutdown_protocol(newgame)
+    newgame.proceed['command'] = lambda: newgame.root.destroy()
+    newgame.root.mainloop()
+    return newgame.end
+
+
+def play_game():
     window = GUI.Window()
     window.green_button['command'] = lambda: green_protocol(window)
     window.red_button['command'] = lambda: red_protocol(window)
@@ -22,10 +36,6 @@ def main():
     window.root.bind('<space>', lambda event: spacebar_protocol(window))
     window.quit['command'] = lambda: shutdown_protocol(window)
     window.root.mainloop()
-
-
-def startup_protocol():
-    arduino.reset()
 
 
 def green_protocol(window):
