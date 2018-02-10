@@ -7,8 +7,8 @@ from tkinter import ttk
 
 # DONE 1 Add buttons for cheating
 # DONE 2 Add difficulty buttons
-# TODO 3 Make Window Look Nice
-# TODO 4 New Game Window?
+# DONE 3 Make Window Look Nice
+# DONE 4 New Game Window?
 # TODO 5 Progress Bar for distance until victory
 
 
@@ -55,7 +55,7 @@ class NewGameWindow(object):
         self.frame = ttk.Frame(self.root, padding=10)
         self.frame.grid()
 
-        self.difficulty = 'easy'
+        self.difficulty = tkinter.StringVar(value='easy')
         self.easy = ttk.Radiobutton(self.frame, text='Easy', variable=self.difficulty, value='easy')
         self.medium = ttk.Radiobutton(self.frame, text='Medium', variable=self.difficulty, value='medium')
         self.hard = ttk.Radiobutton(self.frame, text='Hard', variable=self.difficulty, value='hard')
@@ -74,6 +74,8 @@ class NewGameWindow(object):
 
         self.quit.grid(row=3, column=2)
         self.proceed.grid(row=3, column=0)
+
+        self.game_parameters = [self.end, self.difficulty]
 
     def shutdown(self):
         self.root.destroy()
