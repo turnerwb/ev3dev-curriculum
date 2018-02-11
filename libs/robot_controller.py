@@ -38,6 +38,7 @@ class Snatch3r(object):
         assert self.color_sensor
         assert self.ir_sensor
         assert self.touch_sensor
+
         assert self.left_motor
         assert self.right_motor
         assert self.arm_motor

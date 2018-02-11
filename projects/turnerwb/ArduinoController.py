@@ -1,7 +1,7 @@
 """
-Uses the Firmata protocol to communicate with an Arduino, heavily based off of the blink sample code provided
+Uses the Firmata protocol to communicate with an Arduino, based off of the blink sample code provided
 with the PyFirmata library
-Author: Wesley Turner, based off of code by Tino de Bruijn
+Author: Wesley Turner: example code by Tino de Bruijn
 """
 import pyfirmata
 import serial

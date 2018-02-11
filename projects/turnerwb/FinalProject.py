@@ -5,10 +5,12 @@
 # TODO 4: Robot/Light system
 # DONE 5: Tkinter/Arduino System
 # TODO 6: Test lag between Light change and robot stop. Is it slow enough that the user can see a delay if no cheat?
+# TODO 7: MQTT Computer to Robot: Difficulty information
 # TODO 8: MQTT Computer to Robot: Testing if the robot cheated
 # (I'm thinking something like the Gamemaster from "Petals on a Rose")
 # TODO 9: MQTT Robot to Computer: Testing how far the robot went (Decide on a victory condition)
-import Tkinter_Window as Gui
+# TODO 10: Add Doc Strings
+import TkinterWindow as Gui
 import ArduinoController as Arduino
 import Communication as Coms
 import time
