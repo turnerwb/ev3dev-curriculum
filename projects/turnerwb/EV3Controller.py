@@ -1,21 +1,20 @@
-import mqtt_remote_method_calls as com
+import EV3Communications as com
 import time
 import robot_controller as robo
-import Gamemaster as game
+import EV3Gamemaster as game
 
 def main():
     robot = robo.Snatch3r()
     controller = game.Gamemaster()
-    mqtt_client = com.MqttClient(controller)
-    mqtt_client.connect_to_pc()
+    coms = com.EV3CommunicationSystem(controller)
     while controller.running is True:
-        scan(robot, controller, mqtt_client)
+        scan(robot, controller, coms)
         if robot.is_running():
-            update_progress(controller, mqtt_client)
+            update_progress(controller, coms)
             time.sleep(.01)
 
 
-def scan(robot, controller, mqtt_client):
+def scan(robot, controller, coms):
     if not robot.is_running():
         robot.pixy.mode = 'SIG1'
         if robot.pixy.value(3) > 0:
@@ -27,12 +26,19 @@ def scan(robot, controller, mqtt_client):
             cheat = controller.can_cheat()
             if cheat:
                 time.sleep(.1)
-                update_progress(robot, controller, mqtt_client, 10)
+                coms.cheated = True
+                update_progress(robot, controller, coms, 10)
             robot.stop()
 
 
-def update_progress(robot, controller, mqtt_client, update_value=1):
-    mqtt_client.send_message("update_progress", [update_value])
+def update_progress(robot, controller, coms, update_value=1):
+    coms.update_progress()
     controller.update_progress(update_value)
-    if robot.is_running():
-        if controller.victory
+    if controller.victory:
+        if robot.is_running():
+            controller.victory_protocol()
+        else:
+            timeout = time.time() + 15
+            while time.time() < timeout:
+                pass
+            controller.victory_protocol()

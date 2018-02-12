@@ -1,7 +1,7 @@
 import mqtt_remote_method_calls as Com
 
 
-class CommunicationSystem():
+class CommunicationSystem(object):
 
     def __init__(self, window):
         self.mqtt_client = Com.MqttClient(self)

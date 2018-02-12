@@ -18,6 +18,7 @@ class Gamemaster(object):
         self.speed = None
 
         self.generated_int = None
+        self.cheated_last = False
 
         self.victory = False
         self.VICTORY_RUNNING_TIME = 10000
@@ -42,6 +43,7 @@ class Gamemaster(object):
 
     def can_cheat(self):
         if self.generated_int == 0:
+            self.cheated_last = False
             return True
         return False
 
