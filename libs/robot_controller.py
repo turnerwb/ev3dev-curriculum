@@ -12,7 +12,7 @@
 """
 
 import ev3dev.ev3 as ev3
-# import math
+import math
 import time
 
 
@@ -20,21 +20,25 @@ class Snatch3r(object):
     """Commands for the Snatch3r robot that might be useful in many different programs."""
 
     def __init__(self):
+        # Motors
         self.left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
         self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
+        # Sensors
         self.touch_sensor = ev3.TouchSensor()
-        self.MAX_SPEED = 900
-        self.running = True
-
+        self.beacon_seeker = ev3.BeaconSeeker(channel=4)
         self.pixy = ev3.Sensor(driver_name="pixy-lego")
         self.color_sensor = ev3.ColorSensor()
-        self.ir_sensor = ev3.InfraredSensor
+        self.ir_sensor = ev3.InfraredSensor()
+        # Defined Constants
+        self.MAX_SPEED = 900
+        self.running = True
 
         assert self.pixy
         assert self.color_sensor
         assert self.ir_sensor
         assert self.touch_sensor
+
         assert self.left_motor
         assert self.right_motor
         assert self.arm_motor
@@ -140,3 +144,38 @@ class Snatch3r(object):
         self.running = True
         while self.running:
             time.sleep(0.1)
+
+    def seek_beacon(self):
+        """
+        Seeks and drives to a beacon on channel set in beacon_seeker object
+        :return:
+        """
+        forward_speed = 300
+        turn_speed = 100
+        while not self.touch_sensor.is_pressed:
+            current_heading = self.beacon_seeker.heading  # use the beacon_seeker heading
+            current_distance = self.beacon_seeker.distance  # use the beacon_seeker distance
+            if current_distance == -128:
+                # If the IR Remote is not found just sit idle for this program until it is moved.
+                self.drive(turn_speed, -turn_speed)
+            else:
+                if math.fabs(current_heading) < 2:
+                    print("On the right heading. Distance: ", current_distance)
+                    if current_distance > 3:
+                        self.drive(forward_speed, forward_speed)
+                    else:
+                        time.sleep(1.2)
+                        self.stop()
+                        return True
+                else:
+                    if math.fabs(current_heading) < 10:
+                        print("Adjusting heading: ", current_heading)
+                    else:
+                        print("Heading Extremely Far Off!!", current_heading)
+                    if current_heading > 0:
+                        self.drive(turn_speed, -turn_speed)
+                    else:
+                        self.drive(-turn_speed, turn_speed)
+        print("Abandon ship!")
+        self.stop()
+        return False
