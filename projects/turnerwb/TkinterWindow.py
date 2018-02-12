@@ -33,7 +33,7 @@ class Window(object):
 
         self.track = 0
         self.progress = ttk.Progressbar(self.frame, orient="horizontal", length=200, value=self.track,
-                                        mode='determinate', maximum=1000)
+                                        mode='determinate', maximum=10000)
 
         self.progress.grid(row=6, column=1)
         self.green_button.grid(row=3, column=1)
@@ -45,7 +45,6 @@ class Window(object):
         self.root.destroy()
 
     def update_progress(self):
-        self.track += 100
         self.progress.configure(value=self.track)
         self.root.after(1000, self.update_progress)
 

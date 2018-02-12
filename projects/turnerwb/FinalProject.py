@@ -41,11 +41,13 @@ def init_game_protocol(window):
 def play_game(difficulty):
     print("You are playing in " + str(difficulty) + " mode!")
     window = Gui.Window()
+    com = Coms.CommunicationSystem(window)
     window.green_button['command'] = lambda: green_protocol(window)
     window.red_button['command'] = lambda: red_protocol(window)
-    window.cheat_button['command'] = lambda: accusation_protocol()
+    window.cheat_button['command'] = lambda: accusation_protocol(com)
     window.root.bind('<space>', lambda event: spacebar_protocol(window))
-    window.quit['command'] = lambda: shutdown_protocol(window)
+    window.quit['command'] = lambda: shutdown_protocol(window, com)
+    window.update_progress()
     window.root.mainloop()
 
 
@@ -53,7 +55,6 @@ def green_protocol(window):
     window.green_button.state(['disabled'])
     window.red_button.state(['!disabled'])
     Arduino.green_light()
-    window.update_progress()
 
 
 def red_protocol(window):
@@ -69,14 +70,14 @@ def spacebar_protocol(window):
         green_protocol(window)
 
 
-def accusation_protocol():
-    Coms.caught_cheating()
+def accusation_protocol(com):
+    com.caught_cheating()
 
 
-def shutdown_protocol(window):
+def shutdown_protocol(window, com):
     Arduino.reset()
     time.sleep(.1)
-    Coms.shutdown()
+    com.shutdown()
     time.sleep(.1)
     window.shutdown()
 

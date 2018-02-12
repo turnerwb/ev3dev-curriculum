@@ -179,3 +179,12 @@ class Snatch3r(object):
         print("Abandon ship!")
         self.stop()
         return False
+
+    def is_running(self):
+        """
+        Checks to see if either of the drive motors are running. Returns true if either one is, false otherwise.
+        :return:
+        """
+        if self.left_motor.is_running or self.right_motor.is_running:
+            return True
+        return False

@@ -19,6 +19,12 @@ class Gamemaster(object):
 
         self.generated_int = None
 
+        self.victory = False
+        self.VICTORY_RUNNING_TIME = 10000
+        self.time = 0
+
+        self.running = True
+
     def set_difficulty(self, difficulty):
         self.difficulty = difficulty
         if self.difficulty == "hard":
@@ -33,3 +39,13 @@ class Gamemaster(object):
 
     def generate_random(self):
         self.generated_int = rand.randint(0, self.bound)
+
+    def can_cheat(self):
+        if self.generated_int == 0:
+            return True
+        return False
+
+    def update_progress(self, update_value=1):
+        self.time += update_value
+        if self.time == self.VICTORY_RUNNING_TIME:
+            self.victory = True
