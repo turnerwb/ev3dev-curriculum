@@ -40,21 +40,23 @@ def main():
     ev3.Sound.speak("Drive to the color").wait()
     print("Press Back to exit this program.")
 
-    robot = robo.Snatch3r()
     dc = DataContainer()
 
-    # For our standard shutdown button.
-    btn = ev3.Button()
-    # done: 2. Uncomment the lines below to setup event handlers for these buttons.
-    btn.on_down = lambda state: drive_to_color(state, robot, ev3.ColorSensor.COLOR_BLUE)
-    btn.on_backspace = lambda state: handle_shutdown(state, dc)
+    def on_down():
+        robot.is_running()
 
-    while dc.running:
-        btn.process()
-        time.sleep(0.01)
+        # For our standard shutdown button.
+        btn = ev3.Button()
+        while robot.is_running():
+            drive_to_color(state, robot, ev3.ColorSensor.COLOR_BLUE)
+        btn.on_backspace = lambda state: handle_shutdown(state, dc)
 
-    print("Goodbye!")
-    ev3.Sound.speak("Goodbye").wait()
+        while dc.running:
+            btn.process()
+            time.sleep(0.01)
+
+        print("Goodbye!")
+        ev3.Sound.speak("Goodbye").wait()
 
 
 # ----------------------------------------------------------------------
