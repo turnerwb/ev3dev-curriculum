@@ -44,6 +44,11 @@ class Window(object):
     def shutdown(self):
         self.root.destroy()
 
+    def update_progress(self):
+        self.track += 100
+        self.progress.configure(value=self.track)
+        self.root.after(1000, self.update_progress)
+
 
 class NewGameWindow(object):
     def __init__(self):

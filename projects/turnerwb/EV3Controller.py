@@ -8,14 +8,19 @@ def main():
     mqtt_client = com.MqttClient(controller)
     is_green = False
     if not is_green:
-        scan_green()
+        scan_green(robot, controller)
+    else:
+        scan_red(robot, controller)
 
 
-def scan_green(robot):
+def scan_green(robot, controller):
     robot.pixy.mode = 'SIG1'
-    if robot.pixy.value(3):
-        robot.drive(robot.MAX_SPEED, robot.MAX_SPEED)
+    if robot.pixy.value(3) > 0:
+        controller.generate_random()
+        robot.drive(controller.speed, controller.speed)
 
 
-def scan_red(robot):
+def scan_red(robot, controller):
     robot.pixy.mode = 'SIG 2'
+    if robot.pixy.value(3) > 0:
+        controller.generated_int

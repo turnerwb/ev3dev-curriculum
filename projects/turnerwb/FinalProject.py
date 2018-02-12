@@ -9,7 +9,8 @@
 # TODO 8: MQTT Computer to Robot: Testing if the robot cheated
 # (I'm thinking something like the Gamemaster from "Petals on a Rose")
 # TODO 9: MQTT Robot to Computer: Testing how far the robot went (Decide on a victory condition)
-# TODO 10: Add Doc Strings
+# TODO 10: How to multitask and determin Win/Loss and Progress
+# TODO 11: Add Doc Strings
 import TkinterWindow as Gui
 import ArduinoController as Arduino
 import Communication as Coms
@@ -52,6 +53,7 @@ def green_protocol(window):
     window.green_button.state(['disabled'])
     window.red_button.state(['!disabled'])
     Arduino.green_light()
+    window.update_progress()
 
 
 def red_protocol(window):
