@@ -89,7 +89,7 @@ def main():
     e_button['command'] = (lambda: quit_program(mqtt_client, True))
 
 
-    #insert function to check color sensor here#
+
     root.mainloop()
 
 
