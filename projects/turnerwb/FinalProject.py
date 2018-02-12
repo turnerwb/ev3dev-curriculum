@@ -1,6 +1,6 @@
 # TODO 1: Verify that PIXY will work with LED, Note changes to camera needed to make it work
 # DONE 2: Tkinter Gui, Red Light/Green Light Buttons, Call out button, Difficulty buttons?
-# TODO 2A: Progress Bar on Tkinter? Other visual rep. of robot progress, Goes w/ TODO 9
+# DONE 2A: Progress Bar on Tkinter? Other visual rep. of robot progress, Goes w/ TODO 9!!
 # TODO 3: Random number generator to cause robot to 'Cheat.' Perhaps vary distance
 # TODO 4: Robot/Light system
 # DONE 5: Tkinter/Arduino System
@@ -9,7 +9,7 @@
 # TODO 8: MQTT Computer to Robot: Testing if the robot cheated
 # (I'm thinking something like the Gamemaster from "Petals on a Rose")
 # TODO 9: MQTT Robot to Computer: Testing how far the robot went (Decide on a victory condition)
-# TODO 10: How to multitask and determin Win/Loss and Progress
+# TODO 10: How to multitask and determine Win/Loss and Progress
 # TODO 11: Add Doc Strings
 import TkinterWindow as Gui
 import ArduinoController as Arduino
