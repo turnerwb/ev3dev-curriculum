@@ -26,6 +26,7 @@ class MyDelegate(object):
         self.rectangle_tag = rectangle_tag
 
     def on_rectangle_update(self, x, y, width, height):
+        print(x, y, width, height)
         self.canvas.coords(self.rectangle_tag, [x, y, x + width, y + height])
 
 
