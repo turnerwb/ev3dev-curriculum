@@ -3,6 +3,7 @@ import time
 import robot_controller as robo
 import EV3Gamemaster as game
 
+
 def main():
     robot = robo.Snatch3r()
     controller = game.Gamemaster()
@@ -16,6 +17,8 @@ def main():
 
 def scan(robot, controller, coms):
     if not robot.is_running():
+        if coms.caught:
+            controller.loss_protocol(robot, coms)
         robot.pixy.mode = 'SIG1'
         if robot.pixy.value(3) > 0:
             controller.generate_random()
@@ -28,6 +31,8 @@ def scan(robot, controller, coms):
                 time.sleep(.1)
                 coms.cheated = True
                 update_progress(robot, controller, coms, 10)
+            else:
+                coms.cheated = False
             robot.stop()
 
 
@@ -36,9 +41,10 @@ def update_progress(robot, controller, coms, update_value=1):
     coms.update_progress(update_value, controller.cheated_last)
     if controller.victory:
         if robot.is_running():
-            controller.victory_protocol()
+            controller.victory_protocol(robot, coms)
         else:
             timeout = time.time() + 15
             while time.time() < timeout:
-                pass
-            controller.victory_protocol()
+                if coms.caught:
+                    controller.loss_protocol(robot, coms)
+            controller.victory_protocol(robot, coms)

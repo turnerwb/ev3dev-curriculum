@@ -10,7 +10,6 @@ class CommunicationSystem(object):
 
     def caught_cheating(self):
         print("J'Accuse!")
-        self.window.shutdown()
 
     def update_progress(self, update_amount):
         self.window.track += update_amount
@@ -18,3 +17,4 @@ class CommunicationSystem(object):
 
     def shutdown(self):
         print("Shutting down Coms")
+        self.mqtt_client.close()
