@@ -2,7 +2,7 @@ import mqtt_remote_method_calls as Com
 
 
 class CommunicationSystem(object):
-
+    # TODO Write victory/defeat functions
     def __init__(self, window):
         self.mqtt_client = Com.MqttClient(self)
         self.window = window
