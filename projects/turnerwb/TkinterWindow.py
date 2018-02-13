@@ -41,12 +41,19 @@ class Window(object):
         self.cheat_button.grid(row=5, column=1)
         self.quit.grid(row=7, column=5)
 
+        self.end_game = None
+
     def shutdown(self):
         self.root.destroy()
 
     def update_progress(self):
         self.progress.configure(value=self.track)
         self.root.after(1000, self.update_progress)
+
+    def game_over(self, victory):
+        self.shutdown()
+        self.end_game = GameOverWindow(victory)
+
 
 
 class NewGameWindow(object):
@@ -84,3 +91,28 @@ class NewGameWindow(object):
     def shutdown(self):
         self.root.destroy()
         self.end = True
+
+
+class GameOverWindow(object):
+
+    def __init__(self, victory):
+        self.root = tkinter.Tk()
+        self.root.title("Red Light, Green Light")
+
+        self.frame = ttk.Frame(self.root, padding=10)
+        self.frame.grid()
+
+        self.text = ttk.Label(text="Game Over!")
+        self.text.grid(row=0, column=1)
+
+        if victory:
+            self.victory_text = ttk.Label(text="You Win!")
+        else:
+            self.victory_text = ttk.Label(text="You Lost!")
+        self.victory_text.grid(row=1, column=1)
+
+        self.new_game = ttk.Button(self.frame, text="New Game")
+        self.quit = ttk.Button(self.frame, text="Quit")
+
+        self.new_game.grid(row=2, column=0)
+        self.quit.grid(row=2, column=2)

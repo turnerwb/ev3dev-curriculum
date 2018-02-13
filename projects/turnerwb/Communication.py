@@ -18,3 +18,12 @@ class CommunicationSystem(object):
     def shutdown(self):
         print("Shutting down Coms")
         self.mqtt_client.close()
+
+    def player_win(self):
+        self.window.game_over(True)
+        self.shutdown()
+
+    def player_lose(self):
+        self.window.game_over(False)
+        self.shutdown()
+

@@ -47,8 +47,12 @@ def play_game(difficulty):
     window.cheat_button['command'] = lambda: accusation_protocol(com)
     window.root.bind('<space>', lambda event: spacebar_protocol(window))
     window.quit['command'] = lambda: shutdown_protocol(window, com)
+    window.root.bind('<a>', lambda event: com.player_win())
+    window.root.bind('<s>', lambda event: com.player_lose())
     window.update_progress()
     window.root.mainloop()
+    if window.end_game is not None:
+        end_game(window, com)
 
 
 def green_protocol(window):
@@ -90,6 +94,16 @@ def quit_early(window):
         window.game_parameters = parameters
     except AttributeError:
         window.shutdown()
+
+
+def end_game(window, com):
+    window.end_game.quit['command'] = lambda: shutdown_protocol(window, com)
+    window.end_game.new_game['command'] = lambda: restart_game(com)
+    window.end_game.root.mainloop()
+
+
+def restart_game(com):
+    com.shutdown()
 
 
 main()
