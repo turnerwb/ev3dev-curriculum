@@ -43,11 +43,13 @@ class Gamemaster(object):
 
     def can_cheat(self):
         if self.generated_int == 0:
-            self.cheated_last = False
+            self.cheated_last = True
             return True
+        self.cheated_last = False
         return False
 
     def update_progress(self, update_value=1):
         self.time += update_value
         if self.time == self.VICTORY_RUNNING_TIME:
             self.victory = True
+        return self.cheated_last

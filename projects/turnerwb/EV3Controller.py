@@ -32,8 +32,8 @@ def scan(robot, controller, coms):
 
 
 def update_progress(robot, controller, coms, update_value=1):
-    coms.update_progress()
     controller.update_progress(update_value)
+    coms.update_progress(update_value, controller.cheated_last)
     if controller.victory:
         if robot.is_running():
             controller.victory_protocol()
