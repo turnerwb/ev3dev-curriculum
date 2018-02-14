@@ -1,15 +1,25 @@
 import EV3Communications as com
 import time
-import robot_controller as robo
+import fake_robot_controller as robo
 import EV3Gamemaster as game
-
+import TkinterWindow as Gui
+green_width = 0
+red_width = 0
+robot = robo.Snatch3r()
+controller = game.Gamemaster()
+coms = com.EV3CommunicationSystem()
 
 def main():
-    robot = robo.Snatch3r()
-    controller = game.Gamemaster()
-    coms = com.EV3CommunicationSystem()
+    global robot
+    global controller
+    global coms
+    window = Gui.Window()
+    window.green_button['command'] = lambda: set_green(robot, controller, coms)
+    window.red_button['command'] = lambda: set_red(robot, controller, coms)
     while controller.difficulty is None:
         controller.set_difficulty(coms.difficulty)
+    print(controller.difficulty)
+    window.root.mainloop()
     while controller.running is True:
         scan(robot, controller, coms)
         if robot.is_running():
@@ -19,16 +29,18 @@ def main():
 
 
 def scan(robot, controller, coms):
+    global green_width
+    global red_width
     if not robot.is_running():
         if coms.caught:
             controller.loss_protocol(robot, coms)
-        robot.pixy.mode = 'SIG1'
-        if robot.pixy.value(3) > 0:
+        # robot.pixy.mode = 'SIG1'
+        if green_width > 0:
             controller.generate_random()
             robot.drive(controller.speed, controller.speed)
     else:
-        robot.pixy.mode = 'SIG 2'
-        if robot.pixy.value(3) > 0:
+        # robot.pixy.mode = 'SIG 2'
+        if red_width > 0:
             cheat = controller.can_cheat()
             if cheat:
                 time.sleep(.1)
@@ -51,5 +63,19 @@ def update_progress(robot, controller, coms, update_value=1):
                 if coms.caught:
                     controller.loss_protocol(robot, coms)
             controller.victory_protocol(robot, coms)
+
+def set_green(robot, controller, coms):
+    global green_width
+    global red_width
+    green_width = 100
+    red_width = 0
+    scan(robot, controller, coms)
+
+def set_red(robot, controller, coms):
+    global green_width
+    global red_width
+    green_width = 0
+    red_width = 100
+    scan(robot, controller, coms)
 
 main()

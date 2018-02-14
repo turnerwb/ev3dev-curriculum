@@ -8,6 +8,7 @@ class EV3CommunicationSystem(object):
         self.mqtt_client.connect_to_pc()
         self.cheated = False
         self.caught = False
+        self.difficulty = None
 
     def update_progress(self, update_amount, cheated):
         self.mqtt_client.send_message("update_progress", [update_amount])
@@ -28,3 +29,6 @@ class EV3CommunicationSystem(object):
 
     def loss_protocol(self):
         self.mqtt_client.send_message("player_win", [])
+
+    def set_difficulty(self, difficulty):
+        self.difficulty = difficulty

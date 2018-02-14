@@ -15,12 +15,15 @@ import TkinterWindow as Gui
 import ArduinoController as Arduino
 import Communication as Coms
 import time
+RUNNING = True
 
 
 def main():
-    parameters = startup_protocol()
-    if not parameters[0]:
-        play_game(parameters[1].get())
+    global RUNNING
+    while RUNNING:
+        parameters = startup_protocol()
+        if not parameters[0]:
+            play_game(parameters[1].get())
 
 
 def startup_protocol():
@@ -42,6 +45,7 @@ def play_game(difficulty):
     print("You are playing in " + str(difficulty) + " mode!")
     window = Gui.Window()
     com = Coms.CommunicationSystem(window)
+    com.set_difficulty(str(difficulty))
     window.green_button['command'] = lambda: green_protocol(window)
     window.red_button['command'] = lambda: red_protocol(window)
     window.cheat_button['command'] = lambda: accusation_protocol(com)
@@ -49,10 +53,11 @@ def play_game(difficulty):
     window.quit['command'] = lambda: shutdown_protocol(window, com)
     window.root.bind('<a>', lambda event: com.player_win())
     window.root.bind('<s>', lambda event: com.player_lose())
-    window.update_progress()
+    if window.root.state == 'normal':
+        window.update_progress()
     window.root.mainloop()
-    if window.end_game is not None:
-        end_game(window, com)
+    if window.done:
+        end_game(window.victory)
 
 
 def green_protocol(window):
@@ -94,16 +99,22 @@ def quit_early(window):
         window.game_parameters = parameters
     except AttributeError:
         window.shutdown()
+    global RUNNING
+    RUNNING = False
 
 
-def end_game(window, com):
-    window.end_game.quit['command'] = lambda: shutdown_protocol(window, com)
-    window.end_game.new_game['command'] = lambda: restart_game(com)
-    window.end_game.root.mainloop()
+def end_game(victory):
+    print("ENDING GAME")
+    window = Gui.GameOverWindow(victory)
+    window.quit['command'] = lambda: close_app(window)
+    window.proceed['command'] = lambda: window.root.destroy()
+    window.root.mainloop()
 
 
-def restart_game(com):
-    com.shutdown()
+def close_app(window):
+    global RUNNING
+    RUNNING = False
+    window.root.destroy()
 
 
 main()

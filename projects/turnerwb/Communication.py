@@ -2,7 +2,8 @@ import mqtt_remote_method_calls as Com
 
 
 class CommunicationSystem(object):
-    # TODO Write victory/defeat functions
+    # DONE Write victory/defeat functions
+    # TODO Write comm for robot in case of early quit from game window
     def __init__(self, window):
         self.mqtt_client = Com.MqttClient(self)
         self.window = window
@@ -22,8 +23,12 @@ class CommunicationSystem(object):
     def player_win(self):
         self.window.game_over(True)
         self.shutdown()
+        self.window.root.destroy()
 
     def player_lose(self):
         self.window.game_over(False)
         self.shutdown()
+        self.window.root.destroy()
 
+    def set_difficulty(self, difficulty):
+        self.mqtt_client.send_message("set_difficulty", [difficulty])

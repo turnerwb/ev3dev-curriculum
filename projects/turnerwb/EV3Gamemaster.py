@@ -28,7 +28,9 @@ class Gamemaster(object):
 
     def set_difficulty(self, difficulty):
         self.difficulty = difficulty
-        if self.difficulty == "hard":
+        if self.difficulty is None:
+            return None
+        elif self.difficulty == "hard":
             self.bound = self.HARD_BOUND
             self.speed = self.HARD_SPEED
         elif self.difficulty == "medium":
@@ -54,7 +56,9 @@ class Gamemaster(object):
     def victory_protocol(self, robot, coms):
         robot.stop()
         coms.victory_protocol()
+        self.running = False
 
     def loss_protocol(self, robot, coms):
-            robot.stop()
-            coms.loss_protocol()
+        robot.stop()
+        coms.loss_protocol()
+        self.running = False
