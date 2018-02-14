@@ -1,6 +1,6 @@
 
 """
-Author: Patrick Addis.
+Author: Patrick Addisaz
 """
 
 import mqtt_remote_method_calls as com
@@ -48,7 +48,7 @@ def main():
         # For our standard shutdown button.
         btn = ev3.Button()
         while robot.is_running():
-            drive_to_color(state, robot, ev3.ColorSensor.COLOR_BLUE)
+            drive_to_color(robot, ev3.ColorSensor.COLOR_BLUE)
         btn.on_backspace = lambda state: handle_shutdown(state, dc)
 
         while dc.running:
@@ -58,11 +58,13 @@ def main():
         print("Goodbye!")
         ev3.Sound.speak("Goodbye").wait()
 
+    on_down()
+
 
 # ----------------------------------------------------------------------
 # Event handlers
 # ----------------------------------------------------------------------
-def drive_to_color(button_state, robot, color_to_seek):
+def drive_to_color(robot, color_to_seek):
     """
     When the button_state is True (pressed), drives the robot forward until the desired color is detected.
     When the color_to_seek is detected the robot stops moving forward and speaks a message.
@@ -72,25 +74,24 @@ def drive_to_color(button_state, robot, color_to_seek):
       :type robot: robo.Snatch3r
       :type color_to_seek: int
     """
-    if button_state:
-        ev3.Sound.speak("Seeking " + COLOR_NAMES[color_to_seek]).wait()
-        # done: 3. Implement the task as stated in this module's initial comment block
-        # It is recommended that you add to your Snatch3r class's constructor the color_sensor, as shown
-        #   self.color_sensor = ev3.ColorSensor()
-        #   assert self.color_sensor
-        # Then here you can use a command like robot.color_sensor.color to check the value
-        while True:
-            if color_to_seek != robot.color_sensor:
-                robot.drive(500, 500)
+    ev3.Sound.speak("Seeking " + COLOR_NAMES[color_to_seek]).wait()
+    # done: 3. Implement the task as stated in this module's initial comment block
+    # It is recommended that you add to your Snatch3r class's constructor the color_sensor, as shown
+    #   self.color_sensor = ev3.ColorSensor()
+    #   assert self.color_sensor
+    # Then here you can use a command like robot.color_sensor.color to check the value
+    while True:
+        if color_to_seek != robot.color_sensor:
+            robot.drive(500, 500)
 
-                break
+            break
 
-        # DONE: 4. Call over a TA or instructor to sign your team's checkoff sheet.
-        #
-        # Observations you should make, the instance variable robot.color_sensor.color is always updating
-        # to the color seen and that value is given to you as an int.
+    # DONE: 4. Call over a TA or instructor to sign your team's checkoff sheet.
+    #
+    # Observations you should make, the instance variable robot.color_sensor.color is always updating
+    # to the color seen and that value is given to you as an int.
 
-        ev3.Sound.speak("Found " + COLOR_NAMES[color_to_seek]).wait()
+    ev3.Sound.speak("Found " + COLOR_NAMES[color_to_seek]).wait()
 
 
 def handle_shutdown(button_state, dc):
