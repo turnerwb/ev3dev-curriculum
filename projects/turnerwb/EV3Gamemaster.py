@@ -18,6 +18,7 @@ class Gamemaster(object):
         self.speed = None
 
         self.generated_int = None
+        # self.cheated_last = False
 
         self.victory = False
         self.VICTORY_RUNNING_TIME = 10000
@@ -27,7 +28,9 @@ class Gamemaster(object):
 
     def set_difficulty(self, difficulty):
         self.difficulty = difficulty
-        if self.difficulty == "hard":
+        if self.difficulty is None:
+            return None
+        elif self.difficulty == "hard":
             self.bound = self.HARD_BOUND
             self.speed = self.HARD_SPEED
         elif self.difficulty == "medium":
@@ -49,3 +52,13 @@ class Gamemaster(object):
         self.time += update_value
         if self.time == self.VICTORY_RUNNING_TIME:
             self.victory = True
+
+    def victory_protocol(self, robot, coms):
+        robot.stop()
+        coms.victory_protocol()
+        self.running = False
+
+    def loss_protocol(self, robot, coms):
+        robot.stop()
+        coms.loss_protocol()
+        self.running = False

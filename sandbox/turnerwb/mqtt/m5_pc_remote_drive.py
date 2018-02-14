@@ -98,7 +98,7 @@ def main():
 
     down_button = ttk.Button(main_frame, text="Down")
     down_button.grid(row=6, column=0)
-    down_button['command'] = lambda: send_down(mqtt_client)
+    down_button['command'] = lambda: print("down")
     root.bind('<j>', lambda event: send_down(mqtt_client))
 
     # Buttons for quit and exit
