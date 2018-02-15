@@ -26,6 +26,9 @@ def main():
             time.sleep(.01)
         if not coms.running:
             break
+        if robot.touch_sensor.is_pressed:
+            coms.loss_protocol()
+            break
     robot.shutdown()
 
 

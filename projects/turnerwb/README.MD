@@ -34,6 +34,7 @@ CHANGELOG:
 2/8/2018: Tweaked Blink sample code as proof of concept of Arduino as light control.
 2/10/2018: Completed Tkinter/Arduino System
 2/14/2018: Completed program, list of completed TODOs at bottom of file.
+2/15/2018: Added a digital input (Touch Sensor)
 
 COMPLETED TASKS:
 FinalProject.py:
