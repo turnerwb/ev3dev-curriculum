@@ -1,16 +1,12 @@
 """
+TkinterWindow.py
 Creates the various Tkinter windows for the FinalProject:
 Window: Main game window
+NewGameWindow: Window for user to define difficulty
+GameOverWindow: Window that informs user if they have won or lost and allows them to quit or start a new game
 """
 import tkinter
 from tkinter import ttk
-
-# DONE 1 Add buttons for cheating
-# DONE 2 Add difficulty buttons
-# DONE 3 Make Window Look Nice
-# DONE 4 New Game Window?
-# TODO 5 Progress Bar for distance until victory
-
 
 class Window(object):
     def __init__(self):
@@ -33,7 +29,7 @@ class Window(object):
 
         self.track = 0
         self.progress = ttk.Progressbar(self.frame, orient="horizontal", length=200, value=self.track,
-                                        mode='determinate', maximum=10000)
+                                        mode='determinate', maximum=1000)
 
         self.progress.grid(row=6, column=1)
         self.green_button.grid(row=3, column=1)
@@ -48,8 +44,11 @@ class Window(object):
         self.root.destroy()
 
     def update_progress(self):
+        try:
             self.progress.configure(value=self.track)
             self.root.after(1000, self.update_progress)
+        except tkinter.TclError:
+            pass
 
     def game_over(self, victory):
         self.done = True
@@ -71,7 +70,7 @@ class NewGameWindow(object):
         self.medium = ttk.Radiobutton(self.frame, text='Medium', variable=self.difficulty, value='medium')
         self.hard = ttk.Radiobutton(self.frame, text='Hard', variable=self.difficulty, value='hard')
 
-        self.label = ttk.Label(self.frame,text="Select A Difficulty, Defaults to Easy")
+        self.label = ttk.Label(self.frame, text="Select A Difficulty, Defaults to Easy")
 
         self.proceed = ttk.Button(self.frame, text="New Game")
         self.quit = ttk.Button(self.frame, text="Quit")
