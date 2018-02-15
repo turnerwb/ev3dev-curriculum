@@ -88,6 +88,10 @@ def main():
     e_button.grid(row=6, column=2)
     e_button['command'] = (lambda: quit_program(mqtt_client, True))
 
+    # c_button = ttk.Button(main_frame, text="Color")
+    # c_button.grid(row=7, column=2)
+    # c_button['command'] = (lambda: say_color(mqtt_client))
+
 
 
     root.mainloop()
@@ -132,6 +136,11 @@ def send_up(mqtt_client):
 def send_down(mqtt_client):
     print("arm_down")
     mqtt_client.send_message("arm_down")
+
+
+# def say_color(mqtt_client):
+#     print("Color:")
+#     mqtt_client.send_message("ev3.Sound.speak(COLOR_NAMES[color_to_seek])")
 
 
 # Quit and Exit button callbacks

@@ -87,7 +87,7 @@ def drive_to_color(robot, color_to_seek):
         if color_to_seek != robot.color_sensor.color:
             print('Not Found')
         else:
-            robot.drive(-500, -500)
+            robot.drive_inches(-6, 500)
             break
     robot.stop()
 
