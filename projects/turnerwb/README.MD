@@ -1,4 +1,9 @@
 Operation Red Light/Green Light:
+
+*****
+NB: If you're looking for the main file, on the PC end it's FinalProject.py and on the EV3 end it's EV3Controller.py
+*****
+
 Goal: To create an Arduino/EV3 interface to play Red Light, Green Light with an EV3 Robot using a Tkinter
 interface.
 LIST OF FILES(See Doc-Strings at top of files for more information):
