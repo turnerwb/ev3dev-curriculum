@@ -9,11 +9,9 @@ import robot_controller as robo
 import ev3dev.ev3 as ev3
 import time
 
-robot = robo.Snatch3r()
-mqtt_client = com.MqttClient(robot)
-mqtt_client.connect_to_pc()
+
 # mqtt_client.connect_to_pc("35.194.247.175")  # Off campus IP address of a GCP broker
-robot.loop_forever()  # Calls a function that has a while True: loop within it to avoid letting the program end.
+
 
 COLOR_NAMES = ["None", "Black", "Blue", "Green", "Yellow", "Red", "White", "Brown"]
 
@@ -31,25 +29,18 @@ class DataContainer(object):
 dc = DataContainer()
 
 
-def on_down():
-    robot.is_running()
+def on_down(robot):
+    print(robot.is_running())
     while robot.is_running():
         drive_to_color(robot, ev3.ColorSensor.COLOR_BLUE)
 
     # For our standard shutdown button.
-    btn = ev3.Button()
-    btn.on_backspace = lambda state: handle_shutdown(state, dc)
-
-    while dc.running:
-        btn.process()
-        time.sleep(0.01)
-
-    print("Goodbye!")
-    ev3.Sound.speak("Goodbye").wait()
 
 
 def main():
-
+    robot = robo.Snatch3r()
+    mqtt_client = com.MqttClient(robot)
+    mqtt_client.connect_to_pc()
     print("--------------------------------------------")
     print(" Drive to the color")
     print("  Up button goes to Red")
@@ -60,7 +51,17 @@ def main():
     ev3.Sound.speak("Drive to the color").wait()
     print("Press Back to exit this program.")
 
-    on_down()
+
+    btn=ev3.Button()
+    btn.on_backspace = lambda state: handle_shutdown(state, dc)
+
+    while dc.running:
+        btn.process()
+        time.sleep(0.01)
+        on_down(robot)
+
+    print("Goodbye!")
+    ev3.Sound.speak("Goodbye").wait()
 
 
 # ----------------------------------------------------------------------
@@ -82,10 +83,11 @@ def drive_to_color(robot, color_to_seek):
     #   self.color_sensor = ev3.ColorSensor()
     #   assert self.color_sensor
     # Then here you can use a command like robot.color_sensor.color to check the value
-    while True:
-        if color_to_seek != robot.color_sensor:
-            robot.drive(500, 500)
-
+    while robot.is_running():
+        if color_to_seek != robot.color_sensor.color:
+            print('Not Found')
+        else:
+            robot.drive_inches(-6, 500)
             break
     robot.stop()
 
