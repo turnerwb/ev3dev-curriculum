@@ -1,6 +1,6 @@
 
 """
-Author: Patrick Addisaz
+Author: Patrick Addis
 """
 
 import mqtt_remote_method_calls as com
@@ -14,8 +14,6 @@ mqtt_client = com.MqttClient(robot)
 mqtt_client.connect_to_pc()
 # mqtt_client.connect_to_pc("35.194.247.175")  # Off campus IP address of a GCP broker
 robot.loop_forever()  # Calls a function that has a while True: loop within it to avoid letting the program end.
-
-
 
 COLOR_NAMES = ["None", "Black", "Blue", "Green", "Yellow", "Red", "White", "Brown"]
 
@@ -32,14 +30,14 @@ class DataContainer(object):
 
 dc = DataContainer()
 
-        
+
 def on_down():
     robot.is_running()
+    while robot.is_running():
+        drive_to_color(robot, ev3.ColorSensor.COLOR_BLUE)
 
     # For our standard shutdown button.
     btn = ev3.Button()
-    while robot.is_running():
-        drive_to_color(robot, ev3.ColorSensor.COLOR_BLUE)
     btn.on_backspace = lambda state: handle_shutdown(state, dc)
 
     while dc.running:
@@ -89,6 +87,8 @@ def drive_to_color(robot, color_to_seek):
             robot.drive(500, 500)
 
             break
+    robot.stop()
+
 
     # DONE: 4. Call over a TA or instructor to sign your team's checkoff sheet.
     #
