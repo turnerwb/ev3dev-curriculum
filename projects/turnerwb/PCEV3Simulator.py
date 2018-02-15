@@ -1,3 +1,11 @@
+"""
+PCEV3Simulator.py:
+Allows the user to simulate an EV3 robot on the PC for debugging. Not for use in the final project (i.e. This code is
+contrived and in poor style, but will run without errors.)
+Author: Wesley B. Turner
+"""
+
+
 import EV3Communications as com
 import time
 import fake_robot_controller as robo
@@ -9,6 +17,7 @@ robot = robo.Snatch3r()
 controller = game.Gamemaster()
 coms = com.EV3CommunicationSystem()
 
+
 def main():
     global robot
     global controller
@@ -16,16 +25,19 @@ def main():
     window = Gui.Window()
     window.green_button['command'] = lambda: set_green(robot, controller, coms)
     window.red_button['command'] = lambda: set_red(robot, controller, coms)
+    window.cheat_button['command'] = lambda: update_protocol()
     while controller.difficulty is None:
         controller.set_difficulty(coms.difficulty)
     print(controller.difficulty)
     window.root.mainloop()
-    while controller.running is True:
-        scan(robot, controller, coms)
-        if robot.is_running():
-            update_progress(controller, coms)
-            time.sleep(.01)
-    robot.shutdown()
+
+def update_protocol():
+    global robot
+    global controller
+    global coms
+    if robot.is_running():
+        update_progress(robot, controller, coms)
+        time.sleep(.01)
 
 
 def scan(robot, controller, coms):
@@ -53,7 +65,7 @@ def scan(robot, controller, coms):
 
 def update_progress(robot, controller, coms, update_value=1):
     controller.update_progress(update_value)
-    coms.update_progress(update_value, controller.cheated_last)
+    coms.update_progress(update_value)
     if controller.victory:
         if robot.is_running():
             controller.victory_protocol(robot, coms)

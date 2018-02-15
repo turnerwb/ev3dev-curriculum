@@ -6,44 +6,39 @@ Author: Wesley Turner: example code by Tino de Bruijn
 import pyfirmata
 import serial
 
-REDPIN = 12 # Use Pin 12 for Red Light
-GREENPIN = 13
-DELAY = 2 # A 2 seconds delay
+REDPIN = 12  # Use Pin 12 for Red Light
+GREENPIN = 13  # Use Pin 13 for Green Light (13 is also bulletin, will blink on startup)
 
 # Adjust that the port match your system, see samples below:
 # On Linux: /dev/tty.usbserial-A6008rIF, /dev/ttyACM0,
 # On Windows: \\.\COM1, \\.\COM2
 PORT = '\\.\COM2'
-e = NameError
-# Creates a new board
+e = NameError  # Defines an exception for later
+# Tries to create a new board
 try:
     board = pyfirmata.Arduino(PORT)
-except serial.SerialException:
+except serial.SerialException:  # If the serial port is not found, notify user, but allow to continue (for debug)
     print("Serial Port " + str(PORT) + " Not found")
     print("Print only Mode engaged")
 
 
-# Loop for blinking the led
-# while True:
-#     board.digital[REDPIN].write(1) # Set the LED pin to 1 (HIGH)
-#     board.pass_time(DELAY)
-#     board.digital[REDPIN].write(0) # Set the LED pin to 0 (LOW)
-#     board.pass_time(DELAY)
-#     board.digital[GREENPIN].write(1)
-#     board.pass_time(DELAY)
-#     board.digital[GREENPIN].write(0)
-#     board.pass_time(DELAY)
-
-
 def reset():
+    """
+    Resets the LEDs by turning them both off. If no board is found, does nothing.
+    :return: None
+    """
     try:
         board.digital[REDPIN].write(0)
         board.digital[GREENPIN].write(0)
-    except :
+    except e:
         pass
 
 
 def green_light():
+    """
+    Turns green LED on and red LED off. If no board is found, only prints "Green Light!"
+    :return: None
+    """
     try:
         board.digital[REDPIN].write(0)
         board.digital[GREENPIN].write(1)
@@ -53,6 +48,10 @@ def green_light():
 
 
 def red_light():
+    """
+    Turns red LED on and green LED off. If no board is found, only prints "Red Light!"
+    :return: None
+    """
     try:
         board.digital[REDPIN].write(1)
         board.digital[GREENPIN].write(0)
