@@ -14,6 +14,7 @@
 import ev3dev.ev3 as ev3
 import math
 import time
+COLOR_NAMES = ["None", "Black", "Blue", "Green", "Yellow", "Red", "White", "Brown"]
 
 
 class Snatch3r(object):
@@ -188,3 +189,7 @@ class Snatch3r(object):
         if self.left_motor.is_running or self.right_motor.is_running:
             return True
         return False
+
+    def color_seek(self):
+        color_to_seek = ev3.ColorSensor.COLOR_BLUE
+        ev3.Sound.speak("Seeking " + COLOR_NAMES[color_to_seek]).wait()

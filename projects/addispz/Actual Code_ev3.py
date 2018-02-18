@@ -29,10 +29,10 @@ class DataContainer(object):
 dc = DataContainer()
 
 
-def on_down(robot):
+def on_down(robot, mqtt_client):
     print(robot.is_running())
     while robot.is_running():
-        drive_to_color(robot, ev3.ColorSensor.COLOR_BLUE)
+        drive_to_color(robot, ev3.ColorSensor.COLOR_BLUE, mqtt_client)
 
     # For our standard shutdown button.
 
@@ -58,7 +58,7 @@ def main():
     while dc.running:
         btn.process()
         time.sleep(0.01)
-        on_down(robot)
+        on_down(robot, mqtt_client)
 
     print("Goodbye!")
     ev3.Sound.speak("Goodbye").wait()
@@ -67,7 +67,7 @@ def main():
 # ----------------------------------------------------------------------
 # Event handlers
 # ----------------------------------------------------------------------
-def drive_to_color(robot, color_to_seek):
+def drive_to_color(robot, color_to_seek, mqtt_client):
     """
     When the button_state is True (pressed), drives the robot forward until the desired color is detected.
     When the color_to_seek is detected the robot stops moving forward and speaks a message.
@@ -88,6 +88,7 @@ def drive_to_color(robot, color_to_seek):
             print('Not Found')
         else:
             robot.drive_inches(-6, 500)
+            mqtt_client.send_message("pc_window", [])
             break
     robot.stop()
 
