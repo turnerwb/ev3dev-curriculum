@@ -7,6 +7,7 @@ Author: Wesley B. Turner
 
 import mqtt_remote_method_calls as com
 import socket
+import tkinter
 
 
 class CommunicationSystem(object):
@@ -58,7 +59,7 @@ class CommunicationSystem(object):
         self.shutdown()
         try:
             self.window.root.destroy()
-        except Exception:  # Needs to check for an exception in a different package, not included in this file
+        except tkinter.TclError or RuntimeError:
             pass
 
     def player_lose(self):
