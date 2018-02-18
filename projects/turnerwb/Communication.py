@@ -52,7 +52,10 @@ class CommunicationSystem(object):
         """
         self.window.game_over(True)
         self.shutdown()
-        self.window.root.destroy()
+        try:
+            self.window.root.destroy()
+        except RuntimeError:
+            pass
 
     def player_lose(self):
         """
