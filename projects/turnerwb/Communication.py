@@ -6,6 +6,7 @@ Author: Wesley B. Turner
 """
 
 import mqtt_remote_method_calls as com
+import socket
 
 
 class CommunicationSystem(object):
@@ -13,7 +14,10 @@ class CommunicationSystem(object):
     def __init__(self, window):
         self.mqtt_client = com.MqttClient(self)
         self.window = window
-        self.mqtt_client.connect_to_ev3()
+        try:
+            self.mqtt_client.connect_to_ev3()
+        except socket.gaierror:
+            print("Not connected to internet")
 
     def caught_cheating(self):
         """
@@ -54,7 +58,7 @@ class CommunicationSystem(object):
         self.shutdown()
         try:
             self.window.root.destroy()
-        except RuntimeError:
+        except Exception:  # Needs to check for an exception in a different package, not included in this file
             pass
 
     def player_lose(self):
