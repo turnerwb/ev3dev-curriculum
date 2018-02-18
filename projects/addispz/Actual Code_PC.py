@@ -12,7 +12,7 @@ import mqtt_remote_method_calls as com
 def main():
     # DONE: 2. Setup an mqtt_client.  Notice that since you don't need to receive any messages you do NOT need to have
     # a MyDelegate class.  Simply construct the MqttClient with no parameter in the constructor (easy).
-    mqtt_client = com.MqttClient()
+    mqtt_client = com.MqttClient(my_delegate)
     mqtt_client.connect_to_ev3()
 
     root = tkinter.Tk()
@@ -92,8 +92,6 @@ def main():
     c_button.grid(row=7, column=2)
     c_button['command'] = (lambda: say_color(mqtt_client))
 
-
-
     root.mainloop()
 
 
@@ -150,6 +148,23 @@ def quit_program(mqtt_client, shutdown_ev3):
         mqtt_client.send_message("shutdown")
     mqtt_client.close()
     exit()
+
+class my_delegate(object):
+    def __init__(self):
+        pass
+
+    def pc_window(self):
+        roote = tkinter.Tk()
+        roote.title("Water Found")
+
+        main_frame = ttk.Frame(roote, padding=20, relief='raised')
+        main_frame.grid()
+
+        e_button = ttk.Button(main_frame, text="Exit")
+        e_button.grid(row=6, column=2)
+        e_button['command'] = (lambda: roote.destroy())
+
+        roote.mainloop()
 
 
 # ----------------------------------------------------------------------
