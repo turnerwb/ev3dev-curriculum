@@ -44,17 +44,18 @@ class Snatch3r(object):
         assert self.right_motor
         assert self.arm_motor
 
-    def drive_inches(self, distance_in, motor_sp):
+    def drive_inches(self, distance_in, left_sp, right_sp):
         """
         Drives robot forward a given distance at a given speed
         :param distance_in:
-        :param motor_sp:
+        :param left_sp:
+        :param right_sp:
         :return:
         """
         degrees_per_inch = 90
         motor_turns_needed_in_degrees = distance_in * degrees_per_inch
-        self.left_motor.run_to_rel_pos(position_sp=motor_turns_needed_in_degrees, speed_sp=motor_sp)
-        self.right_motor.run_to_rel_pos(position_sp=motor_turns_needed_in_degrees, speed_sp=motor_sp)
+        self.left_motor.run_to_rel_pos(position_sp=motor_turns_needed_in_degrees, speed_sp= left_sp)
+        self.right_motor.run_to_rel_pos(position_sp=motor_turns_needed_in_degrees, speed_sp= right_sp)
         self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
 
     def turn_degrees(self, degrees_to_turn, turn_speed_sp):
@@ -106,15 +107,14 @@ class Snatch3r(object):
         self.arm_motor.wait_while(ev3.Motor.STATE_RUNNING)
         self.arm_motor.stop(stop_action="brake")
 
-    def drive(self, left_sp, right_sp):
+    def drive(self, motor_sp):
         """
         Makes both motors spin at provides speed until stopped
-        :param left_sp:
-        :param right_sp:
+        :param motor_sp:
         :return:
         """
-        self.right_motor.run_forever(speed_sp=right_sp)
-        self.left_motor.run_forever(speed_sp=left_sp)
+        self.right_motor.run_forever(speed_sp=motor_sp)
+        self.left_motor.run_forever(speed_sp=motor_sp)
 
     def stop(self):
         """
@@ -190,6 +190,6 @@ class Snatch3r(object):
             return True
         return False
 
-    def color_seek(self):
-        color_to_seek = ev3.ColorSensor.COLOR_BLUE
-        ev3.Sound.speak("Seeking " + COLOR_NAMES[color_to_seek]).wait()
+    # def color_seek(self):
+    #     color_to_seek = ev3.ColorSensor.COLOR_BLUE
+    #     ev3.Sound.speak("Seeking " + COLOR_NAMES[color_to_seek]).wait()
