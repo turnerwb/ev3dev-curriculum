@@ -24,11 +24,16 @@ fake_robot_controller.py
 
 
 KNOWN BUGS:
-The PIXY does not like to always pick up the LEDs (especially the red LED) without giving false positives:
+1.)The PIXY does not like to always pick up the LEDs (especially the red LED) without giving false positives:
 PROPOSED FIX: None; Optimal conditions are non-red tinted light or dim lighting, no software fix possible.
-The PIXY will not pick up either LED and/or will not distinguish between the green and red LEDs:
+2.)The PIXY will not pick up either LED and/or will not distinguish between the green and red LEDs:
 PROPOSED FIX: Hold a sheet of printer paper over the light, this diffuses the light and gives the PIXY a swatch of
 colour rather than a point of light
+3.)Queued update scripts throw errors after Tkinter window is destroyed
+NO KNOWN FIX
+4.)New Game Windows don't always appropriately have the radio button variables set when a new game is called. The
+circumstances which cause this are unknown
+NO KNOWN FIX
 
 CHANGELOG:
 2/8/2018: Tweaked Blink sample code as proof of concept of Arduino as light control.

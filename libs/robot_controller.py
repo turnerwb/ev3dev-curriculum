@@ -113,7 +113,6 @@ class Snatch3r(object):
         :param right_sp:
         :return:
         """
-        print("driving")
         self.right_motor.run_forever(speed_sp=right_sp)
         self.left_motor.run_forever(speed_sp=left_sp)
 
