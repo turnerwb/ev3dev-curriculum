@@ -8,6 +8,7 @@ GameOverWindow: Window that informs user if they have won or lost and allows the
 import tkinter
 from tkinter import ttk
 
+
 class Window(object):
     def __init__(self):
         self.root = tkinter.Tk()
